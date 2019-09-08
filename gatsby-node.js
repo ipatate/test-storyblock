@@ -21,6 +21,7 @@ exports.createPages = ({ graphql, actions }) => {
                   field_component
                   full_slug
                   content
+                  lang
                   is_startpage
                   parent_id
                   group_id

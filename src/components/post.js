@@ -45,15 +45,15 @@ const Post = props => {
     }
   }, []);
 
-  const loadStory = payload => {
+  const loadStory = () => {
     window.storyblok.get(
       {
-        slug: getParam('_storyblok'),
+        id: _story.id,
         version: 'draft'
       },
       data => {
         console.log(data);
-        setStory({ ...data.story, ...{ id: payload.storyId } });
+        setStory(data.story);
       }
     );
   };
@@ -61,7 +61,7 @@ const Post = props => {
   const initStoryblokEvents = () => {
     let sb = window.storyblok;
 
-    loadStory({ storyId: getParam('_storyblok') });
+    loadStory();
 
     sb.on(['change', 'published'], payload => {
       loadStory(payload);
