@@ -28,6 +28,12 @@ const Post = props => {
                 <p>{b.Code}</p>
               </SbEditable>
             );
+          } else if (b.component === 'Media') {
+            return (
+              <SbEditable content={b}>
+                <img src={b.Media} alt="" />
+              </SbEditable>
+            );
           }
         })}
       </div>
