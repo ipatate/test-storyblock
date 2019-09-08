@@ -38,13 +38,11 @@ const Post = props => {
   // init storyblok
   useEffect(() => {
     const _storyblok = getParam('_storyblok');
-    console.log(_storyblok, _storyblok !== undefined && _storyblok !== '');
-
-    // if (_storyblok !== undefined && _storyblok !== '') {
-    loadStoryblokBridge(() => {
-      initStoryblokEvents();
-    });
-    // }
+    if (_storyblok !== undefined && _storyblok !== '') {
+      loadStoryblokBridge(() => {
+        initStoryblokEvents();
+      });
+    }
   }, []);
 
   const loadStory = payload => {
@@ -69,8 +67,6 @@ const Post = props => {
     });
 
     sb.on('input', payload => {
-      console.log(payload.story.id, _story.id);
-
       if (_story) {
         payload.story.content = sb.addComments(payload.story.content, payload.story.id);
         setStory(payload.story);
@@ -85,39 +81,41 @@ const Post = props => {
   };
   const { Title, block } = _story.content;
   return (
-    <div>
-      <SbEditable content={_story.content}>
-        <h1>{Title}</h1>
-      </SbEditable>
-      {block.map(b => {
-        if (b.component === 'Title') {
-          return (
-            <SbEditable content={b}>
-              <h2>{b.Title}</h2>
-            </SbEditable>
-          );
-        } else if (b.component === 'Paragraph') {
-          return (
-            <SbEditable content={b}>
-              <p>{b.Paragraph}</p>
-            </SbEditable>
-          );
-        } else if (b.component === 'Code') {
-          return (
-            <SbEditable content={b}>
-              <p>{b.Code}</p>
-            </SbEditable>
-          );
-        } else if (b.component === 'Media') {
-          return (
-            <SbEditable content={b}>
-              <img src={b.Media} alt="" />
-            </SbEditable>
-          );
-        }
-        return null;
-      })}
-    </div>
+    <SbEditable content={_story}>
+      <div>
+        <SbEditable content={_story.content}>
+          <h1>{Title}</h1>
+        </SbEditable>
+        {block.map(b => {
+          if (b.component === 'Title') {
+            return (
+              <SbEditable content={b}>
+                <h2>{b.Title}</h2>
+              </SbEditable>
+            );
+          } else if (b.component === 'Paragraph') {
+            return (
+              <SbEditable content={b}>
+                <p>{b.Paragraph}</p>
+              </SbEditable>
+            );
+          } else if (b.component === 'Code') {
+            return (
+              <SbEditable content={b}>
+                <p>{b.Code}</p>
+              </SbEditable>
+            );
+          } else if (b.component === 'Media') {
+            return (
+              <SbEditable content={b}>
+                <img src={b.Media} alt="" />
+              </SbEditable>
+            );
+          }
+          return null;
+        })}
+      </div>
+    </SbEditable>
   );
 };
 
