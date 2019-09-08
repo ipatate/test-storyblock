@@ -38,11 +38,13 @@ const Post = props => {
   // init storyblok
   useEffect(() => {
     const _storyblok = getParam('_storyblok');
-    if (_storyblok !== undefined && _storyblok !== '') {
-      loadStoryblokBridge(() => {
-        initStoryblokEvents();
-      });
-    }
+    console.log(_storyblok, _storyblok !== undefined && _storyblok !== '');
+
+    // if (_storyblok !== undefined && _storyblok !== '') {
+    loadStoryblokBridge(() => {
+      initStoryblokEvents();
+    });
+    // }
   }, []);
 
   const loadStory = payload => {
