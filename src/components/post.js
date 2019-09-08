@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SbEditable from 'storyblok-react';
 // import Components from './components.js';
 import config from '../../gatsby-config';
@@ -18,7 +18,6 @@ const loadStoryblokBridge = function(cb) {
 const getParam = function(val) {
   var result = '';
   var tmp = [];
-
   window.location.search
     .substr(1)
     .split('&')
@@ -33,49 +32,46 @@ const getParam = function(val) {
 };
 
 const Post = props => {
-  const { blok } = props;
-  const { Title, block } = blok;
+  const { story } = props;
 
-  useEffect(
-    () =>
+  const [_story, setStory] = useState(story);
+  // init storyblok
+  useEffect(() => {
+    const _storyblok = getParam('_storyblok');
+    if (_storyblok !== undefined && _storyblok !== '') {
       loadStoryblokBridge(() => {
         initStoryblokEvents();
-      }),
-    []
-  );
+      });
+    }
+  }, []);
 
   const loadStory = payload => {
     window.storyblok.get(
       {
-        slug: getParam('path'),
+        slug: getParam('_storyblok'),
         version: 'draft'
       },
       data => {
-        console.log(data);
-
-        // this.setState({ story: data.story });
-        // this.loadGlovalNavi(data.story.lang);
+        setStory({ ...data.story, ...{ id: payload.storyId } });
       }
     );
   };
 
   const initStoryblokEvents = () => {
-    console.log(getParam('path'));
-
-    loadStory({ storyId: getParam('path') });
-
     let sb = window.storyblok;
+
+    loadStory({ storyId: getParam('_storyblok') });
 
     sb.on(['change', 'published'], payload => {
       loadStory(payload);
     });
 
     sb.on('input', payload => {
-      console.log(payload);
+      console.log(payload.story.id, _story.id);
 
-      if (this.state.story && payload.story.id === this.state.story.id) {
+      if (_story) {
         payload.story.content = sb.addComments(payload.story.content, payload.story.id);
-        this.setState({ story: payload.story });
+        setStory(payload.story);
       }
     });
 
@@ -85,40 +81,41 @@ const Post = props => {
       }
     });
   };
+  const { Title, block } = _story.content;
   return (
-    <SbEditable content={blok}>
-      <div>
+    <div>
+      <SbEditable content={_story.content}>
         <h1>{Title}</h1>
-        {block.map(b => {
-          if (b.component === 'Title') {
-            return (
-              <SbEditable content={b}>
-                <h2>{b.Title}</h2>
-              </SbEditable>
-            );
-          } else if (b.component === 'Paragraph') {
-            return (
-              <SbEditable content={b}>
-                <p>{b.Paragraph}</p>
-              </SbEditable>
-            );
-          } else if (b.component === 'Code') {
-            return (
-              <SbEditable content={b}>
-                <p>{b.Code}</p>
-              </SbEditable>
-            );
-          } else if (b.component === 'Media') {
-            return (
-              <SbEditable content={b}>
-                <img src={b.Media} alt="" />
-              </SbEditable>
-            );
-          }
-          return null;
-        })}
-      </div>
-    </SbEditable>
+      </SbEditable>
+      {block.map(b => {
+        if (b.component === 'Title') {
+          return (
+            <SbEditable content={b}>
+              <h2>{b.Title}</h2>
+            </SbEditable>
+          );
+        } else if (b.component === 'Paragraph') {
+          return (
+            <SbEditable content={b}>
+              <p>{b.Paragraph}</p>
+            </SbEditable>
+          );
+        } else if (b.component === 'Code') {
+          return (
+            <SbEditable content={b}>
+              <p>{b.Code}</p>
+            </SbEditable>
+          );
+        } else if (b.component === 'Media') {
+          return (
+            <SbEditable content={b}>
+              <img src={b.Media} alt="" />
+            </SbEditable>
+          );
+        }
+        return null;
+      })}
+    </div>
   );
 };
 
