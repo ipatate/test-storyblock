@@ -45,7 +45,7 @@ const Post = props => {
     }
   }, []);
 
-  useEffect(() => loadStory(), [_story.id]);
+  // useEffect(() => loadStory(), [_story.id]);
 
   const loadStory = () => {
     window.storyblok.get(
