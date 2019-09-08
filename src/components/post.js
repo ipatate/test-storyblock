@@ -51,13 +51,17 @@ const Post = props => {
         version: 'draft'
       },
       data => {
-        this.setState({ story: data.story });
-        this.loadGlovalNavi(data.story.lang);
+        console.log(data);
+
+        // this.setState({ story: data.story });
+        // this.loadGlovalNavi(data.story.lang);
       }
     );
   };
 
   const initStoryblokEvents = () => {
+    console.log(getParam('path'));
+
     loadStory({ storyId: getParam('path') });
 
     let sb = window.storyblok;
