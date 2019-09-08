@@ -52,6 +52,7 @@ const Post = props => {
         version: 'draft'
       },
       data => {
+        console.log(data);
         setStory({ ...data.story, ...{ id: payload.storyId } });
       }
     );
@@ -80,6 +81,8 @@ const Post = props => {
     });
   };
   const { Title, block } = _story.content;
+  console.log(_story.content);
+
   return (
     <SbEditable content={_story}>
       <div>
