@@ -1,47 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect, useState } from 'react';
 
-class SbEditable extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-
-  componentDidMount() {
-    console.log(this.props.content._editable);
+const SbEditable = props => {
+  const [options, setOptions] = useState(null);
+  useEffect(() => {
+    console.log(props.content._editable);
 
     // search editable content
     // || (window && window.location === window.parent.location)
-    if (typeof this.props.content._editable === 'undefined') {
+    if (typeof props.content._editable === 'undefined') {
       return;
     }
+    setOptions(JSON.parse(props.content._editable.replace('<!--#storyblok#', '').replace('-->', '')));
+  }, [props.content]);
 
-    var el = ReactDOM.findDOMNode(this);
-    var options = JSON.parse(this.props.content._editable.replace('<!--#storyblok#', '').replace('-->', ''));
-    console.log(el, options);
-
-    if (el instanceof Object && typeof el.setAttribute === 'function') {
-      el.setAttribute('data-blok-c', JSON.stringify(options));
-      el.setAttribute('data-blok-uid', options.id + '-' + options.uid);
-
-      this.addClass(el, 'storyblok__outline');
-    } else {
-      console.warn(
-        'I seams that you are using a text dom element inside the SbEditable wrapper. Please wrap it with a HTML dom element.'
-      );
-    }
+  if (options) {
+    return (
+      <div
+        className={'storyblok__outline'}
+        data-blok-c={JSON.stringify(options)}
+        data-blok-uid={`${options.id}-${options.uid}`}
+      >
+        {props.children}
+      </div>
+    );
+  } else {
+    return props.children;
   }
-
-  addClass(el, className) {
-    if (el.classList) {
-      el.classList.add(className);
-    } else if (!new RegExp('\\b' + className + '\\b').test(el.className)) {
-      el.className += ' ' + className;
-    }
-  }
-
-  render() {
-    return this.props.children;
-  }
-}
+};
 
 export default SbEditable;
