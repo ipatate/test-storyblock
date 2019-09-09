@@ -35,6 +35,7 @@ const Post = props => {
   const { story } = props;
 
   const [_story, setStory] = useState(story);
+
   // init storyblok
   useEffect(() => {
     const _storyblok = getParam('_storyblok');
@@ -46,8 +47,6 @@ const Post = props => {
   }, []);
 
   const loadStory = () => {
-    console.log(_story.id);
-
     window.storyblok.get(
       {
         slug: _story.full_slug,
@@ -55,7 +54,6 @@ const Post = props => {
         version: 'draft'
       },
       data => {
-        console.log(data);
         setStory(data.story);
       }
     );
@@ -63,9 +61,7 @@ const Post = props => {
 
   const initStoryblokEvents = () => {
     let sb = window.storyblok;
-
     loadStory();
-
     sb.on(['change', 'published'], payload => {
       loadStory(payload);
     });
@@ -84,7 +80,6 @@ const Post = props => {
     });
   };
   const { Title, block } = _story.content;
-  console.log(_story.content);
 
   return (
     <SbEditable content={_story}>
