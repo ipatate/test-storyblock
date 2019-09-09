@@ -1,15 +1,14 @@
 import { cloneElement, useEffect, useState } from 'react';
 
-const SbEditable = props => {
+const SbEditable = ({ content }) => {
   const [options, setOptions] = useState(null);
   useEffect(() => {
     // search editable content
-    // Bug with cross domain origin with: "|| (window && window.location === window.parent.location)"
-    if (typeof props.content._editable === 'undefined') {
+    if (typeof content._editable === 'undefined' || (window && window.location === window.parent.location)) {
       return;
     }
-    setOptions(JSON.parse(props.content._editable.replace('<!--#storyblok#', '').replace('-->', '')));
-  }, [props.content]);
+    setOptions(JSON.parse(content._editable.replace('<!--#storyblok#', '').replace('-->', '')));
+  }, [content]);
   const { children } = props;
   // if options
   if (options) {
