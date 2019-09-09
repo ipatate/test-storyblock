@@ -3,8 +3,6 @@ if (process.env.NODE_ENV !== 'production') {
     path: `.env.${process.env.NODE_ENV}`
   });
 }
-console.log(process.env);
-
 module.exports = {
   siteMetadata: {
     title: 'Gatsby Default Starter'
@@ -13,7 +11,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-storyblok',
       options: {
-        accessToken: process.env.storyblok_token,
+        accessToken: process.env.STORYBLOK_TOKEN,
         homeSlug: 'home',
         version: process.env.NODE_ENV === 'production' ? 'published' : 'draft'
       }
