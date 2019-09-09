@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class SbEditable extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   componentDidMount() {
-    console.log(this.props.content, window.location, window.parent.location);
+    // console.log(this.props.content, window.location, window.parent.location);
 
     // search editable content
     if (typeof this.props.content._editable === 'undefined' || (window && window.location === window.parent.location)) {

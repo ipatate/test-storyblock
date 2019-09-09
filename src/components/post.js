@@ -50,7 +50,8 @@ const Post = props => {
 
     window.storyblok.get(
       {
-        id: _story.id,
+        slug: _story.full_slug,
+        // id: _story.id,
         version: 'draft'
       },
       data => {
