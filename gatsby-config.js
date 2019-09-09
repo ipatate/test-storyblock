@@ -3,6 +3,8 @@ if (process.env.NODE_ENV !== 'production') {
     path: `.env.${process.env.NODE_ENV}`
   });
 }
+console.log(process.env.STORYBLOK_TOKEN);
+
 module.exports = {
   siteMetadata: {
     title: 'Gatsby Default Starter'
