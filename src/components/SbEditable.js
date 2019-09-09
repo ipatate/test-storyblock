@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 
 const SbEditable = props => {
   const [options, setOptions] = useState(null);
@@ -11,9 +11,10 @@ const SbEditable = props => {
     setOptions(JSON.parse(props.content._editable.replace('<!--#storyblok#', '').replace('-->', '')));
   }, [props.content]);
   const { children } = props;
+  // if options
   if (options) {
-    // clone and add new props
-    return React.cloneElement(children, {
+    // clone and add new props for editing
+    return cloneElement(children, {
       className: 'storyblok__outline',
       'data-blok-c': JSON.stringify(options),
       'data-blok-uid': `${options.id}-${options.uid}`
