@@ -1,15 +1,16 @@
 {
   "version": 2,
+  "name": "test-storyblock",
   "builds": [
     {
       "src": "package.json",
       "use": "@now/static-build",
-      "config": { "distDir": "public" }
+      "config": { "distDir": "public" },
+      "env": {
+        "STORYBLOK_TOKEN": "@storyblok_token"
+      }
     }
   ],
-  "env": {
-    "STORYBLOK_TOKEN": "@storyblok_token"
-  },
   "routes": [
     { "src": "/(.*)", "dest": "/$1" },
     { "handle": "filesystem" },
