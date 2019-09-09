@@ -1,3 +1,6 @@
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`
+});
 module.exports = {
   siteMetadata: {
     title: 'Gatsby Default Starter'
@@ -6,7 +9,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-storyblok',
       options: {
-        accessToken: require('./token'),
+        accessToken: process.env.STORYBLOK_TOKEN,
         homeSlug: 'home',
         version: process.env.NODE_ENV === 'production' ? 'published' : 'draft'
       }
