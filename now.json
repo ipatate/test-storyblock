@@ -5,12 +5,19 @@
     {
       "src": "package.json",
       "use": "@now/static-build",
-      "config": { "distDir": "public" },
-      "env": {
-        "STORYBLOK_TOKEN": "@storyblok_token"
-      }
+      "config": { "distDir": "public" }
     }
   ],
+  "env": {
+    "STORYBLOK_TOKEN": "@storyblok-token",
+    "STORYBLOK_TOKEN_PREVIEW": "@storyblok-token-preview"
+  },
+  "build": {
+    "env": {
+      "STORYBLOK_TOKEN": "@storyblok-token",
+      "STORYBLOK_TOKEN_PREVIEW": "@storyblok-token-preview"
+    }
+  },
   "routes": [
     { "src": "/(.*)", "dest": "/$1" },
     { "handle": "filesystem" },

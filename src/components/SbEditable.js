@@ -1,6 +1,6 @@
 import { cloneElement, useEffect, useState } from 'react';
 
-const SbEditable = ({ content }) => {
+const SbEditable = ({ content, children }) => {
   const [options, setOptions] = useState(null);
   useEffect(() => {
     // search editable content
@@ -9,7 +9,6 @@ const SbEditable = ({ content }) => {
     }
     setOptions(JSON.parse(content._editable.replace('<!--#storyblok#', '').replace('-->', '')));
   }, [content]);
-  const { children } = props;
   // if options
   if (options) {
     // clone and add new props for editing
