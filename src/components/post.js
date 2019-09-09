@@ -45,9 +45,9 @@ const Post = props => {
     }
   }, []);
 
-  // useEffect(() => loadStory(), [_story.id]);
-
   const loadStory = () => {
+    console.log(_story.id);
+
     window.storyblok.get(
       {
         id: _story.id,
@@ -83,6 +83,7 @@ const Post = props => {
     });
   };
   const { Title, block } = _story.content;
+  console.log(_story.content);
 
   return (
     <SbEditable content={_story}>
