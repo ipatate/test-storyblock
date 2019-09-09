@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import SbEditable from 'storyblok-react';
+import SbEditable from './SbEditable';
 // import Components from './components.js';
 import config from '../../gatsby-config';
 
